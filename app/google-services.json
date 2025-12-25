@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "118623634151",
+    "project_id": "proje-70189",
+    "storage_bucket": "proje-70189.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118623634151:android:6ee17cc78185d8c2135842",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAaflE_GiDxIrl-6iRjdcXSybbzG9-3Kc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118623634151:android:1f09e5b33b60f29d135842",
+        "android_client_info": {
+          "package_name": "com.example.risefit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAaflE_GiDxIrl-6iRjdcXSybbzG9-3Kc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
