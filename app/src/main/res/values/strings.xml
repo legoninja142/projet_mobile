@@ -42,5 +42,10 @@
     <string name="welcome_title">Energize your life!</string>
     <string name="welcome_subtitle">If you want to be a hit in life,\nyou gotta be fit and fine.</string>
     <string name="get_started">Get Started</string>
+
+    <!-- Course strings -->
+    <string name="menu_courses">Courses</string>
+    <string name="menu_settings">Settings</string>
 </resources>
+
 

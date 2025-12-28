@@ -7,9 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
+import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
@@ -26,7 +29,25 @@ public class HomeFragment extends Fragment {
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        // Setup navigation buttons
+        setupNavigationButtons(root);
+
         return root;
+    }
+
+    private void setupNavigationButtons(View root) {
+        // Courses button
+        CardView cardCourses = root.findViewById(R.id.card_courses);
+        cardCourses.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.nav_courses);
+        });
+
+        // Settings button
+        CardView cardSettings = root.findViewById(R.id.card_settings);
+        cardSettings.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.nav_settings);
+        });
     }
 
     @Override
