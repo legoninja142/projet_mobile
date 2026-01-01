@@ -20,7 +20,8 @@
     <!-- Standard Colors -->
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    
+    <color name="red">#FF0000</color>
+
     <!-- Legacy Mappings (to prevent build errors until layouts are updated) -->
     <color name="purple_200">@color/primary_light_blue</color>
     <color name="purple_500">@color/primary_blue</color>

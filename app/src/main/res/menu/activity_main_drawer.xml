@@ -20,5 +20,9 @@
             android:id="@+id/nav_dashboard"
             android:icon="@drawable/ic_menu_dashboard"
             android:title="@string/menu_dashboard" />
+        <item
+            android:id="@+id/nav_sleep"
+            android:icon="@android:drawable/ic_lock_idle_lock"
+            android:title="Sleep Tracker" />
     </group>
 </menu>
