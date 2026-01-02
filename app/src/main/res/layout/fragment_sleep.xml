@@ -140,6 +140,46 @@
                 android:backgroundTint="#F44336" />
 
         </LinearLayout>
+        <!-- Add this after the sensor buttons and before the divider -->
+
+        <!-- Chronometer Display -->
+        <LinearLayout
+            android:id="@+id/layout_chronometer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="#E8F5E9"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time Elapsed"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <Chronometer
+                android:id="@+id/chronometer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="#1B5E20" />
+
+            <TextView
+                android:id="@+id/text_tracking_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone is monitoring your sleep..."
+                android:textSize="14sp"
+                android:textColor="#666666"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
         <!-- Notes -->
         <TextView
             android:layout_width="wrap_content"

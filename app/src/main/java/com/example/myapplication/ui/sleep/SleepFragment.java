@@ -3,14 +3,19 @@ package com.example.myapplication.ui.sleep;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Chronometer;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,11 +49,24 @@ public class SleepFragment extends Fragment {
 
     // Sensor tracking variables
     private static final int PERMISSION_REQUEST_CODE = 1001;
-    private static final String[] REQUIRED_PERMISSIONS = {
-            Manifest.permission.ACTIVITY_RECOGNITION,
-            Manifest.permission.WAKE_LOCK
-    };
+    private static final String[] REQUIRED_PERMISSIONS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ?
+            new String[]{
+                    Manifest.permission.ACTIVITY_RECOGNITION,
+                    Manifest.permission.WAKE_LOCK,
+                    Manifest.permission.BODY_SENSORS
+            } :
+            new String[]{
+                    Manifest.permission.WAKE_LOCK,
+                    Manifest.permission.BODY_SENSORS
+            };
     private boolean isSensorMonitoring = false;
+
+    // Chronometer variables
+    private Chronometer chronometer;
+    private long chronometerBaseTime = 0;
+    private static final String CHRONOMETER_BASE = "chronometer_base";
+    private static final String CHRONOMETER_STARTED = "chronometer_started";
+    private static final String PREF_NAME = "sleep_tracker_prefs";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -69,12 +87,16 @@ public class SleepFragment extends Fragment {
         setupListeners();
         setupObservers();
         setupSensorTracking();
+        setupChronometer();
 
         // Load sleep records
-        String userId = sessionManager.getLoggedInUserId(); // Changed to getLoggedInUserId
+        String userId = sessionManager.getLoggedInUserId();
         if (userId != null) {
             sleepViewModel.loadSleepRecords(userId);
         }
+
+        // Check if chronometer should be running from previous session
+        checkAndRestoreChronometer();
     }
 
     private void initializeDateTimePickers() {
@@ -163,6 +185,37 @@ public class SleepFragment extends Fragment {
         updateSensorUI();
     }
 
+    private void setupChronometer() {
+        chronometer = binding.chronometer;
+
+        // Set chronometer format
+        chronometer.setFormat("%s");
+
+        // Add chronometer listener to update formatting
+        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                long elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
+                updateChronometerText(elapsedMillis);
+            }
+        });
+    }
+
+    private void updateChronometerText(long elapsedMillis) {
+        long hours = elapsedMillis / (1000 * 60 * 60);
+        long minutes = (elapsedMillis % (1000 * 60 * 60)) / (1000 * 60);
+        long seconds = (elapsedMillis % (1000 * 60)) / 1000;
+
+        String timeText;
+        if (hours > 0) {
+            timeText = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        } else {
+            timeText = String.format("%02d:%02d", minutes, seconds);
+        }
+
+        chronometer.setText(timeText);
+    }
+
     private boolean checkPermissions() {
         for (String permission : REQUIRED_PERMISSIONS) {
             if (ContextCompat.checkSelfPermission(requireContext(), permission)
@@ -219,6 +272,9 @@ public class SleepFragment extends Fragment {
             return;
         }
 
+        // Start chronometer
+        startChronometer();
+
         Intent serviceIntent = new Intent(requireContext(), SleepSensorService.class);
         serviceIntent.putExtra("action", "start");
         serviceIntent.putExtra("user_id", userId);
@@ -240,6 +296,7 @@ public class SleepFragment extends Fragment {
             Toast.makeText(requireContext(),
                     "Failed to start sensor tracking: " + e.getMessage(),
                     Toast.LENGTH_SHORT).show();
+            stopChronometer();
         }
     }
 
@@ -251,6 +308,7 @@ public class SleepFragment extends Fragment {
             requireContext().startService(serviceIntent);
             isSensorMonitoring = false;
             updateSensorUI();
+            stopChronometer();
             Toast.makeText(requireContext(),
                     "Sensor tracking stopped. Data saved.",
                     Toast.LENGTH_SHORT).show();
@@ -260,6 +318,75 @@ public class SleepFragment extends Fragment {
                     "Failed to stop sensor tracking: " + e.getMessage(),
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void startChronometer() {
+        // Start chronometer
+        chronometerBaseTime = SystemClock.elapsedRealtime();
+        chronometer.setBase(chronometerBaseTime);
+        chronometer.start();
+
+        // Save chronometer state
+        saveChronometerState(true, chronometerBaseTime);
+
+        // Show chronometer layout
+        binding.layoutChronometer.setVisibility(View.VISIBLE);
+
+        // Update tracking hint
+        binding.textTrackingHint.setText("Phone is monitoring your sleep...");
+    }
+
+    private void stopChronometer() {
+        // Stop chronometer
+        chronometer.stop();
+
+        // Clear chronometer state
+        saveChronometerState(false, 0);
+
+        // Hide chronometer layout
+        binding.layoutChronometer.setVisibility(View.GONE);
+    }
+
+    private void saveChronometerState(boolean isRunning, long baseTime) {
+        SharedPreferences prefs = requireContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(CHRONOMETER_STARTED, isRunning);
+        editor.putLong(CHRONOMETER_BASE, baseTime);
+        editor.apply();
+    }
+
+    private void checkAndRestoreChronometer() {
+        SharedPreferences prefs = requireContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        boolean wasRunning = prefs.getBoolean(CHRONOMETER_STARTED, false);
+        long savedBaseTime = prefs.getLong(CHRONOMETER_BASE, 0);
+
+        if (wasRunning && savedBaseTime > 0) {
+            // Calculate elapsed time
+            long currentTime = SystemClock.elapsedRealtime();
+            long elapsedTime = currentTime - savedBaseTime;
+
+            // Show chronometer with elapsed time
+            binding.layoutChronometer.setVisibility(View.VISIBLE);
+            chronometerBaseTime = currentTime - elapsedTime;
+            chronometer.setBase(chronometerBaseTime);
+            chronometer.start();
+
+            // Update tracking hint
+            binding.textTrackingHint.setText("Resumed tracking...");
+
+            isSensorMonitoring = true;
+            updateSensorUI();
+
+            Log.d("SleepFragment", "Chronometer restored. Elapsed time: " + formatTime(elapsedTime));
+        }
+    }
+
+    private String formatTime(long millis) {
+        long seconds = millis / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+
+        return String.format("%02d:%02d:%02d", hours, minutes % 60, seconds % 60);
     }
 
     private boolean isAccelerometerAvailable() {
@@ -279,6 +406,9 @@ public class SleepFragment extends Fragment {
             binding.btnStopSensorTracking.setVisibility(View.GONE);
             binding.textSensorStatus.setText("⚪ Sensor tracking idle");
             binding.textSensorStatus.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.darker_gray));
+
+            // Ensure chronometer is hidden when not tracking
+            binding.layoutChronometer.setVisibility(View.GONE);
         }
     }
 
@@ -349,7 +479,7 @@ public class SleepFragment extends Fragment {
     }
 
     private void saveSleepRecord() {
-        String userId = sessionManager.getLoggedInUserId(); // Changed to getLoggedInUserId
+        String userId = sessionManager.getLoggedInUserId();
         if (userId == null) {
             Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show();
             return;
@@ -388,6 +518,22 @@ public class SleepFragment extends Fragment {
 
     private void showEditDialog(SleepRecord record) {
         Toast.makeText(requireContext(), "Edit feature coming soon", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Save chronometer state when fragment pauses
+        if (isSensorMonitoring && chronometer != null) {
+            saveChronometerState(true, chronometerBaseTime);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Check if we need to restore chronometer
+        checkAndRestoreChronometer();
     }
 
     @Override

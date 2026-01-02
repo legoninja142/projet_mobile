@@ -16,6 +16,9 @@
     <color name="text_primary">#1D2338</color>
     <color name="text_secondary">#8E94A3</color>
     <color name="text_on_primary">#FFFFFF</color>
+    <color name="chronometer_background">#E8F5E9</color>
+    <color name="chronometer_text">#1B5E20</color>
+    <color name="tracking_hint">#666666</color>
     
     <!-- Standard Colors -->
     <color name="black">#000000</color>
