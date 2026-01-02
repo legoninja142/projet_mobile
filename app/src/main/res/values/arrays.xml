@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sleep_quality_array">
+        <item>Very Poor (1)</item>
+        <item>Poor (2)</item>
+        <item>Average (3)</item>
+        <item>Good (4)</item>
+        <item>Excellent (5)</item>
+    </string-array>
+</resources>
