@@ -42,5 +42,36 @@
     <string name="welcome_title">Energize your life!</string>
     <string name="welcome_subtitle">If you want to be a hit in life,\nyou gotta be fit and fine.</string>
     <string name="get_started">Get Started</string>
-</resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Run Fragment -->
+    <string name="run_tracker">RUN TRACKER</string>
+    <string name="track_your_running_session">Track your running session</string>
+    <string name="start_run">START RUN</string>
+    <string name="stop_save">STOP &amp; SAVE</string>
+    <string name="distance_label">DISTANCE</string>
+    <string name="time_label">TIME</string>
+    <string name="avg_speed_label">AVG SPEED</string>
+    <string name="kilometers">km</string>
+    <string name="km_h">km/h</string>
+
+    <!-- Image descriptions for accessibility -->
+
+    <string name="distance_icon_description">Distance measurement icon</string>
+    <string name="time_icon_description">Time icon</string>
+    <string name="speed_icon_description">Speed icon</string>
+    <string name="play_icon_description">Play icon</string>
+    <string name="stop_icon_description">Stop icon</string>
+    <string name="run_icon_description">Icône de course</string>
+    <string name="default_distance">0.00</string>
+    <string name="default_speed">0.0</string>
+    <string name="default_time">00:00:00</string>
+    <string name="start_time">Start: 00/00/0000 00:00:00</string>
+    <string name="duration">Duration: 00:00:00</string>
+    <string name="distance">Distance: 0 m</string>
+    <string name="avg_speed">Avg Speed: 0 m/s</string>
+
+
+
+</resources>

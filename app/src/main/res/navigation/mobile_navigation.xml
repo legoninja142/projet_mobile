@@ -28,4 +28,15 @@
         android:name="com.example.myapplication.ui.dashboard.DashboardFragment"
         android:label="@string/menu_dashboard"
         tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/nav_course"
+        android:name="com.example.myapplication.ui.run.RunFragment"
+        android:label="Course"
+        tools:layout="@layout/fragment_run" />
+    <fragment
+        android:id="@+id/nav_history_course"
+        android:name="com.example.myapplication.ui.run.RunHistoryFragment"
+        android:label="Historique Course"
+        tools:layout="@layout/fragment_run_history" />
+
 </navigation>

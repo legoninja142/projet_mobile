@@ -2,7 +2,6 @@ package com.example.myapplication.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import com.example.myapplication.model.User;
 
 public class SessionManager {
@@ -17,9 +16,10 @@ public class SessionManager {
     }
 
     public void saveSession(User user) {
+        if (user == null || user.getEmail() == null) return;
         prefs.edit()
                 .putBoolean(KEY_LOGGED_IN, true)
-                .putString(KEY_EMAIL, user != null ? user.getEmail() : null)
+                .putString(KEY_EMAIL, user.getEmail())
                 .apply();
     }
 
@@ -35,4 +35,3 @@ public class SessionManager {
         prefs.edit().clear().apply();
     }
 }
-
