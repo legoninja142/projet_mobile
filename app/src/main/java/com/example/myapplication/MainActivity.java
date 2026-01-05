@@ -46,6 +46,23 @@ public class MainActivity extends AppCompatActivity {
         });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+        
+        // Set up navigation header with user info
+        View headerView = navigationView.getHeaderView(0);
+        android.widget.TextView tvUserName = headerView.findViewById(R.id.tvUserName);
+        android.widget.TextView tvUserEmail = headerView.findViewById(R.id.tvUserEmail);
+        
+        // Get user info from session
+        String userName = sessionManager.getUserName();
+        String userEmail = sessionManager.getUserEmail();
+        
+        if (userName != null && !userName.isEmpty()) {
+            tvUserName.setText(userName);
+        }
+        if (userEmail != null && !userEmail.isEmpty()) {
+            tvUserEmail.setText(userEmail);
+        }
+        
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(

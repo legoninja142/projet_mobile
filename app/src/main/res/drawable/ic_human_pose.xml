@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="300dp"
+    android:viewportWidth="200"
+    android:viewportHeight="300">
+    
+    <!-- Head -->
+    <path
+        android:fillColor="#8B1538"
+        android:pathData="M100,30 m-20,0 a20,20 0,1 1,40 0 a20,20 0,1 1,-40 0"/>
+    
+    <!-- Neck -->
+    <path
+        android:fillColor="#8B1538"
+        android:pathData="M95,50 L95,70 L105,70 L105,50 Z"/>
+    
+    <!-- Body/Torso -->
+    <path
+        android:fillColor="#A82049"
+        android:pathData="M70,70 L70,150 L130,150 L130,70 Z"/>
+    
+    <!-- Left Arm Upper -->
+    <path
+        android:fillColor="#C92A5B"
+        android:pathData="M70,75 L40,110 L48,115 L75,85 Z"/>
+    
+    <!-- Left Arm Lower -->
+    <path
+        android:fillColor="#C92A5B"
+        android:pathData="M40,110 L25,145 L33,150 L48,115 Z"/>
+    
+    <!-- Right Arm Upper -->
+    <path
+        android:fillColor="#C92A5B"
+        android:pathData="M130,75 L160,110 L152,115 L125,85 Z"/>
+    
+    <!-- Right Arm Lower -->
+    <path
+        android:fillColor="#C92A5B"
+        android:pathData="M160,110 L175,145 L167,150 L152,115 Z"/>
+    
+    <!-- Left Leg Upper -->
+    <path
+        android:fillColor="#6B0F2A"
+        android:pathData="M75,150 L65,210 L80,212 L88,150 Z"/>
+    
+    <!-- Left Leg Lower -->
+    <path
+        android:fillColor="#6B0F2A"
+        android:pathData="M65,210 L60,270 L75,272 L80,212 Z"/>
+    
+    <!-- Right Leg Upper -->
+    <path
+        android:fillColor="#6B0F2A"
+        android:pathData="M125,150 L135,210 L120,212 L112,150 Z"/>
+    
+    <!-- Right Leg Lower -->
+    <path
+        android:fillColor="#6B0F2A"
+        android:pathData="M135,210 L140,270 L125,272 L120,212 Z"/>
+    
+    <!-- Joints (circles as paths) -->
+    <!-- Neck joint -->
+    <path
+        android:fillColor="#8B1538"
+        android:pathData="M100,70 m-6,0 a6,6 0,1 1,12 0 a6,6 0,1 1,-12 0"/>
+    
+    <!-- Left shoulder -->
+    <path
+        android:fillColor="#C92A5B"
+        android:pathData="M70,80 m-5,0 a5,5 0,1 1,10 0 a5,5 0,1 1,-10 0"/>
+    
+    <!-- Right shoulder -->
+    <path
+        android:fillColor="#C92A5B"
+        android:pathData="M130,80 m-5,0 a5,5 0,1 1,10 0 a5,5 0,1 1,-10 0"/>
+    
+    <!-- Left elbow -->
+    <path
+        android:fillColor="#C92A5B"
+        android:pathData="M44,112 m-4,0 a4,4 0,1 1,8 0 a4,4 0,1 1,-8 0"/>
+    
+    <!-- Right elbow -->
+    <path
+        android:fillColor="#C92A5B"
+        android:pathData="M156,112 m-4,0 a4,4 0,1 1,8 0 a4,4 0,1 1,-8 0"/>
+    
+    <!-- Left knee -->
+    <path
+        android:fillColor="#6B0F2A"
+        android:pathData="M72,210 m-5,0 a5,5 0,1 1,10 0 a5,5 0,1 1,-10 0"/>
+    
+    <!-- Right knee -->
+    <path
+        android:fillColor="#6B0F2A"
+        android:pathData="M128,210 m-5,0 a5,5 0,1 1,10 0 a5,5 0,1 1,-10 0"/>
+</vector>

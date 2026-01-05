@@ -6,27 +6,32 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:icon="@drawable/ic_nav_home"
+            android:title="Home" />
         <item
             android:id="@+id/nav_dashboard"
-            android:icon="@drawable/ic_menu_dashboard"
-            android:title="@string/menu_dashboard" />
+            android:icon="@drawable/ic_nav_dashboard"
+            android:title="Dashboard" />
         <item
             android:id="@+id/nav_courses"
-            android:icon="@android:drawable/ic_menu_mapmode"
-            android:title="@string/menu_courses" />
+            android:icon="@drawable/ic_nav_courses"
+            android:title="My Courses" />
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@android:drawable/ic_menu_preferences"
-            android:title="@string/menu_settings" />
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_nav_gallery"
+            android:title="Gallery" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_nav_slideshow"
+            android:title="Analytics" />
     </group>
+
+    <item android:title="Account">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_nav_settings"
+                android:title="Settings" />
+        </menu>
+    </item>
 </menu>

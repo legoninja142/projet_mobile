@@ -28,6 +28,11 @@ public class User {
         this.fullName = fullName;
     }
 
+    // Alias for getFullName() for convenience
+    public String getName() {
+        return fullName;
+    }
+
     public String getEmail() {
         return email;
     }

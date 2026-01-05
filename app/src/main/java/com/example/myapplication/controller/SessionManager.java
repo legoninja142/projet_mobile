@@ -9,6 +9,7 @@ public class SessionManager {
     private static final String PREF_NAME = "app_session";
     private static final String KEY_LOGGED_IN = "logged_in";
     private static final String KEY_EMAIL = "email";
+    private static final String KEY_NAME = "name";
 
     private SharedPreferences prefs;
 
@@ -20,6 +21,7 @@ public class SessionManager {
         prefs.edit()
                 .putBoolean(KEY_LOGGED_IN, true)
                 .putString(KEY_EMAIL, user != null ? user.getEmail() : null)
+                .putString(KEY_NAME, user != null ? user.getName() : null)
                 .apply();
     }
 
@@ -29,6 +31,14 @@ public class SessionManager {
 
     public String getLoggedInEmail() {
         return prefs.getString(KEY_EMAIL, null);
+    }
+
+    public String getUserEmail() {
+        return prefs.getString(KEY_EMAIL, null);
+    }
+
+    public String getUserName() {
+        return prefs.getString(KEY_NAME, null);
     }
 
     public void clearSession() {

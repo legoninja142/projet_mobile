@@ -29,11 +29,29 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Login button click handler
         binding.buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = binding.inputEmail.getText() != null ? binding.inputEmail.getText().toString().trim() : "";
-                String password = binding.inputPassword.getText() != null ? binding.inputPassword.getText().toString() : "";
+                String email = binding.tilEmail.getEditText() != null ? 
+                    binding.tilEmail.getEditText().getText().toString().trim() : "";
+                String password = binding.tilPassword.getEditText() != null ? 
+                    binding.tilPassword.getEditText().getText().toString() : "";
+
+                // Validate inputs
+                if (email.isEmpty()) {
+                    binding.tilEmail.setError("Email is required");
+                    return;
+                }
+
+                if (password.isEmpty()) {
+                    binding.tilPassword.setError("Password is required");
+                    return;
+                }
+
+                // Clear errors
+                binding.tilEmail.setError(null);
+                binding.tilPassword.setError(null);
 
                 binding.buttonLogin.setEnabled(false);
                 binding.buttonLogin.setText("Signing In...");
@@ -51,24 +69,25 @@ public class LoginActivity extends AppCompatActivity {
                             User foundUser = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
                             if (foundUser != null) {
                                 sessionManager.saveSession(foundUser);
-                                Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Login Successful! Welcome back!", Toast.LENGTH_SHORT).show();
                                 startMainAndFinish();
                             }
                         } else {
                             binding.buttonLogin.setEnabled(true);
-                            binding.buttonLogin.setText(com.example.myapplication.R.string.action_signin);
-                            binding.inputPassword.setError("Invalid credentials");
-                            Toast.makeText(LoginActivity.this, "Login failed. Check your email or password.", Toast.LENGTH_SHORT).show();
+                            binding.buttonLogin.setText("SIGN IN");
+                            binding.tilPassword.setError("Invalid credentials");
+                            Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(e -> {
                         binding.buttonLogin.setEnabled(true);
-                        binding.buttonLogin.setText(com.example.myapplication.R.string.action_signin);
-                        Toast.makeText(LoginActivity.this, "Error connecting to Firebase: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        binding.buttonLogin.setText("SIGN IN");
+                        Toast.makeText(LoginActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
             }
         });
 
+        // Sign up link click handler
         binding.tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,10 +95,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Forgot password click handler
         binding.tvForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "Password recovery coming soon!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Password recovery feature coming soon!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -91,7 +111,3 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 }
-
-
-
-

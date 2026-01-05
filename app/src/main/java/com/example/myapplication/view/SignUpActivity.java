@@ -3,6 +3,7 @@ package com.example.myapplication.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,28 +30,77 @@ public class SignUpActivity extends AppCompatActivity {
         binding.buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String fullName = binding.inputFullName.getText() != null ? binding.inputFullName.getText().toString().trim() : "";
-                String email = binding.inputEmail.getText() != null ? binding.inputEmail.getText().toString().trim() : "";
-                String password = binding.inputPassword.getText() != null ? binding.inputPassword.getText().toString() : "";
-                String confirmPassword = binding.inputConfirmPassword.getText() != null ? binding.inputConfirmPassword.getText().toString() : "";
+                String fullName = binding.tilFullName.getEditText() != null ? 
+                    binding.tilFullName.getEditText().getText().toString().trim() : "";
+                String email = binding.tilEmail.getEditText() != null ? 
+                    binding.tilEmail.getEditText().getText().toString().trim() : "";
+                String phone = binding.tilPhone.getEditText() != null ? 
+                    binding.tilPhone.getEditText().getText().toString().trim() : "";
+                String age = binding.tilAge.getEditText() != null ? 
+                    binding.tilAge.getEditText().getText().toString().trim() : "";
+                String password = binding.tilPassword.getEditText() != null ? 
+                    binding.tilPassword.getEditText().getText().toString() : "";
+                String confirmPassword = binding.tilConfirmPassword.getEditText() != null ? 
+                    binding.tilConfirmPassword.getEditText().getText().toString() : "";
+
+                // Get gender
+                String gender = "";
+                int selectedGenderId = binding.rgGender.getCheckedRadioButtonId();
+                if (selectedGenderId != -1) {
+                    RadioButton selectedGender = findViewById(selectedGenderId);
+                    gender = selectedGender.getText().toString();
+                }
+
+                // Validate inputs
+                boolean isValid = true;
 
                 if (fullName.isEmpty()) {
-                    binding.inputFullName.setError("Full name is required");
-                    return;
+                    binding.tilFullName.setError("Full name is required");
+                    isValid = false;
+                } else {
+                    binding.tilFullName.setError(null);
                 }
 
                 if (email.isEmpty()) {
-                    binding.inputEmail.setError("Email is required");
-                    return;
+                    binding.tilEmail.setError("Email is required");
+                    isValid = false;
+                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    binding.tilEmail.setError("Invalid email format");
+                    isValid = false;
+                } else {
+                    binding.tilEmail.setError(null);
+                }
+
+                if (phone.isEmpty()) {
+                    binding.tilPhone.setError("Phone number is required");
+                    isValid = false;
+                } else {
+                    binding.tilPhone.setError(null);
                 }
 
                 if (password.isEmpty()) {
-                    binding.inputPassword.setError("Password is required");
-                    return;
+                    binding.tilPassword.setError("Password is required");
+                    isValid = false;
+                } else if (password.length() < 6) {
+                    binding.tilPassword.setError("Password must be at least 6 characters");
+                    isValid = false;
+                } else {
+                    binding.tilPassword.setError(null);
                 }
 
                 if (!password.equals(confirmPassword)) {
-                    binding.inputConfirmPassword.setError("Passwords do not match");
+                    binding.tilConfirmPassword.setError("Passwords do not match");
+                    isValid = false;
+                } else {
+                    binding.tilConfirmPassword.setError(null);
+                }
+
+                if (!binding.cbTerms.isChecked()) {
+                    Toast.makeText(SignUpActivity.this, "Please accept Terms & Conditions", Toast.LENGTH_SHORT).show();
+                    isValid = false;
+                }
+
+                if (!isValid) {
                     return;
                 }
 
@@ -60,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
                 // Save to Firebase Firestore
                 com.google.firebase.firestore.FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
                 
-                binding.buttonSignUp.setEnabled(false); // Prevent multiple clicks
+                binding.buttonSignUp.setEnabled(false);
                 binding.buttonSignUp.setText("Creating Account...");
                 
                 db.collection("users")
@@ -69,7 +119,7 @@ public class SignUpActivity extends AppCompatActivity {
                         // Save local session
                         sessionManager.saveSession(user);
                         
-                        Toast.makeText(SignUpActivity.this, "Account created & saved to Firebase!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, "Account created successfully! Welcome!", Toast.LENGTH_SHORT).show();
                         
                         // Go to MainActivity
                         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
@@ -79,8 +129,8 @@ public class SignUpActivity extends AppCompatActivity {
                     })
                     .addOnFailureListener(e -> {
                         binding.buttonSignUp.setEnabled(true);
-                        binding.buttonSignUp.setText(com.example.myapplication.R.string.action_signup);
-                        Toast.makeText(SignUpActivity.this, "Error saving to Firebase: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        binding.buttonSignUp.setText("CREATE ACCOUNT");
+                        Toast.makeText(SignUpActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     });
             }
         });
@@ -93,4 +143,3 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 }
-
