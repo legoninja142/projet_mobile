@@ -480,14 +480,22 @@ public class SleepFragment extends Fragment {
 
     private void saveSleepRecord() {
         String userId = sessionManager.getLoggedInUserId();
-        if (userId == null) {
-            Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show();
+        if (userId == null || userId.isEmpty()) {
+            Toast.makeText(requireContext(), "User not logged in. Please log in first.", Toast.LENGTH_LONG).show();
             return;
         }
 
         // Validate end time is after start time
         if (endDateTimeCalendar.getTimeInMillis() <= startDateTimeCalendar.getTimeInMillis()) {
             Toast.makeText(requireContext(), "End date/time must be after start date/time", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Validate that sleep duration is reasonable (not more than 24 hours)
+        long durationMillis = endDateTimeCalendar.getTimeInMillis() - startDateTimeCalendar.getTimeInMillis();
+        long maxDurationMillis = 24 * 60 * 60 * 1000; // 24 hours
+        if (durationMillis > maxDurationMillis) {
+            Toast.makeText(requireContext(), "Sleep duration cannot exceed 24 hours", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -503,14 +511,13 @@ public class SleepFragment extends Fragment {
                 notes
         );
 
+        Log.d("SleepFragment", "Saving sleep record for user: " + userId);
         sleepViewModel.addSleepRecord(record, userId);
 
         // Clear form and reset to default times
         binding.editTextNotes.setText("");
         binding.spinnerSleepQuality.setSelection(0);
 
-        // Show success message
-        Toast.makeText(requireContext(), "Sleep record saved successfully!", Toast.LENGTH_SHORT).show();
 
         // Reset calendars for next entry (default to last night's sleep)
         initializeDateTimePickers();

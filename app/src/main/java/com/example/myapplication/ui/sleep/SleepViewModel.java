@@ -63,7 +63,19 @@ public class SleepViewModel extends ViewModel {
             if (task.isSuccessful()) {
                 loadSleepRecords(userId);
             } else {
-                errorMessage.setValue("Failed to add sleep record: " + task.getException().getMessage());
+                Exception exception = task.getException();
+                String errorMsg = exception != null ? exception.getMessage() : "Unknown error";
+
+                // Check for specific permission/authentication errors
+                if (errorMsg.contains("PERMISSION_DENIED")) {
+                    errorMessage.setValue("Permission denied. Please check Firestore security rules and ensure you're logged in.");
+                } else if (errorMsg.contains("UNAUTHENTICATED")) {
+                    errorMessage.setValue("Not authenticated. Please log in again.");
+                } else if (errorMsg.contains("NETWORK")) {
+                    errorMessage.setValue("Network error. Please check your internet connection.");
+                } else {
+                    errorMessage.setValue("Failed to add sleep record: " + errorMsg);
+                }
             }
         });
     }
