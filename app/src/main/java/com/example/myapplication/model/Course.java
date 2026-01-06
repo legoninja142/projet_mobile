@@ -60,8 +60,17 @@ public class Course {
     public float getMaxSpeed() { return maxSpeed; }
     public boolean isCompleted() { return completed; }
 
-    /* ================= SETTERS ================= */
+    /* ================= SETTERS FOR FIRESTORE ================= */
     public void setId(String id) { this.id = id; }
+    public void setUserId(String userId) { this.userId = userId; }
+    public void setStartTime(long startTime) { this.startTime = startTime; }
+    public void setEndTime(long endTime) { this.endTime = endTime; }
+    public void setDuration(long duration) { this.duration = duration; }
+    public void setDistance(float distance) { this.distance = distance; }
+    public void setAvgSpeed(float avgSpeed) { this.avgSpeed = avgSpeed; }
+    public void setMaxSpeed(float maxSpeed) { this.maxSpeed = maxSpeed; }
+    public void setCompleted(boolean completed) { this.completed = completed; }
+
     public static String formatTimestamp(long timestamp) {
         Date date = new Date(timestamp);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());

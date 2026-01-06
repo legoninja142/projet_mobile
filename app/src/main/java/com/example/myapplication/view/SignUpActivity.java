@@ -72,6 +72,7 @@ public class SignUpActivity extends AppCompatActivity {
                             .addOnSuccessListener(unused -> {
 
                                 // 🔑 Sauvegarde session
+                                user.setUserId(firebaseUser.getUid());
                                 sessionManager.saveSession(user);
 
                                 // 🔑 Aller vers MainActivity

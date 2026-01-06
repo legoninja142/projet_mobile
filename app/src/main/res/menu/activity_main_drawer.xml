@@ -28,5 +28,17 @@
             android:id="@+id/nav_history_course"
             android:icon="@drawable/ic_history_course"
             android:title="Historique Courses" />
+        <item
+            android:id="@+id/nav_motivation"
+            android:icon="@drawable/ic_play"
+            android:title="Motivation Audio" />
+        <item
+            android:id="@+id/nav_sleep"
+            android:icon="@drawable/ic_sleep"
+            android:title="Sleep Tracker" />
+        <item
+            android:id="@+id/nav_activity"
+            android:icon="@drawable/ic_activity"
+            android:title="Activity Tracker" />
     </group>
 </menu>

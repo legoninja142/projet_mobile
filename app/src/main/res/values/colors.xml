@@ -53,5 +53,9 @@
     <color name="red_accent_light">#33FF5252</color>
     <color name="surface_light">#FAFAFA</color>
     <color name="surface_dark">#F8F8F8</color>
+    
+    <!-- Additional colors for Sleep and Activity features -->
+    <color name="colorPrimary">@color/primary_blue</color>
+    <color name="red">#FF5252</color>
 </resources>
 

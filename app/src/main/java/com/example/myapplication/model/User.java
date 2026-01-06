@@ -1,6 +1,7 @@
 package com.example.myapplication.model;
 
 public class User {
+    private String userId;
     private String fullName;
     private String email;
     private String password;
@@ -20,6 +21,14 @@ public class User {
         this.password = password;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+ 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+ 
     public String getFullName() {
         return fullName;
     }

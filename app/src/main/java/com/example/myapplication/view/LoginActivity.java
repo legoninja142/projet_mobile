@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 User user = snapshot.toObject(User.class);
                                 if (user != null) {
+                                    user.setUserId(firebaseUser.getUid());
                                     sessionManager.saveSession(user);
                                 }
 
@@ -74,6 +75,11 @@ public class LoginActivity extends AppCompatActivity {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 finish();
+                            })
+                            .addOnFailureListener(e -> {
+                                binding.buttonLogin.setEnabled(true);
+                                binding.buttonLogin.setText("Se connecter"); // Reset text
+                                Toast.makeText(this, "Erreur récupération données: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             });
 
                 })

@@ -72,6 +72,17 @@
     <string name="distance">Distance: 0 m</string>
     <string name="avg_speed">Avg Speed: 0 m/s</string>
 
+    <!-- Permission strings -->
+    <string name="permission_needed">Permission Needed</string>
+    <string name="step_counter_permission_rationale">This app needs access to your physical activity and sensors to track your sleep quality.</string>
+    <string name="grant_permission">Grant</string>
+    <string name="permission_required">Permission Required</string>
+    <string name="permission_denied_message">Some features may not work without permissions. Please enable them in app settings.</string>
+    <string name="open_settings">Settings</string>
 
-
+    <!-- Sleep Strings -->
+    <string name="sleep_tracking_started">Sleep tracking started</string>
+    <string name="sleep_tracking_stopped">Sleep tracking stopped</string>
+    <string name="save_sleep_record_success">Sleep record saved successfully</string>
+    <string name="delete_sleep_record_success">Sleep record deleted successfully</string>
 </resources>

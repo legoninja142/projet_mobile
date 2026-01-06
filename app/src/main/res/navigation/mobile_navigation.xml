@@ -39,4 +39,22 @@
         android:label="Historique Course"
         tools:layout="@layout/fragment_run_history" />
 
+    <activity
+        android:id="@+id/nav_motivation"
+        android:name="com.example.myapplication.view.MotivationActivity"
+        android:label="Motivation Audio"
+        tools:layout="@layout/activity_motivation" />
+
+    <fragment
+        android:id="@+id/nav_sleep"
+        android:name="com.example.myapplication.ui.sleep.SleepFragment"
+        android:label="Sleep Tracker"
+        tools:layout="@layout/fragment_sleep" />
+
+    <fragment
+        android:id="@+id/nav_activity"
+        android:name="com.example.myapplication.ui.activity.ActivityFragment"
+        android:label="Activity Tracker"
+        tools:layout="@layout/fragment_activity" />
+
 </navigation>
