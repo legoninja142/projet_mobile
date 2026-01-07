@@ -48,9 +48,31 @@ public class SleepViewModel extends ViewModel {
                         records.add(record);
                     }
                 }
+
+                // Sort records by recordDate in descending order (newest first)
+                // This handles both normal queries and fallback queries
+                records.sort((r1, r2) -> {
+                    if (r1.getRecordDate() == null || r2.getRecordDate() == null) {
+                        return 0;
+                    }
+                    return r2.getRecordDate().compareTo(r1.getRecordDate());
+                });
+
                 sleepRecords.setValue(records);
             } else {
-                errorMessage.setValue("Failed to load sleep records: " + task.getException().getMessage());
+                Exception exception = task.getException();
+                String errorMsg = exception != null ? exception.getMessage() : "Unknown error";
+
+                // Handle specific Firestore errors
+                if (errorMsg.contains("FAILED_PRECONDITION")) {
+                    errorMessage.setValue("Creating composite index... Please wait and try again in a few minutes. If error persists, create index manually in Firebase Console.");
+                } else if (errorMsg.contains("PERMISSION_DENIED")) {
+                    errorMessage.setValue("Permission denied. Please check Firestore security rules.");
+                } else if (errorMsg.contains("UNAUTHENTICATED")) {
+                    errorMessage.setValue("Not authenticated. Please log in again.");
+                } else {
+                    errorMessage.setValue("Failed to load sleep records: " + errorMsg);
+                }
             }
         });
     }
